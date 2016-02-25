@@ -1,0 +1,28 @@
+package bbc.gameoflifestub;
+
+import java.util.ArrayList;
+
+public class Life {
+
+	private ArrayList<ArrayList<Cell>> cells;
+
+	public Life(ArrayList<ArrayList<Cell>> initialCells)
+    {
+		this.cells = initialCells;
+	}
+
+    public ArrayList<ArrayList<Cell>> getCells()
+    {
+        return this.cells;
+    }
+
+    public boolean cellShouldSurvive(int numNeighbours)
+    {
+    	if (numNeighbours == 2 || numNeighbours == 3) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+}

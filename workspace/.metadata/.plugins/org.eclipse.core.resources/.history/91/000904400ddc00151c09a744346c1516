@@ -1,0 +1,40 @@
+package test.bbc.gameoflifestub;
+
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import bbc.gameoflifestub.Cell;
+import bbc.gameoflifestub.Life;
+
+import static org.junit.Assert.*;
+	
+public class LifeTest {
+
+	protected ArrayList<ArrayList<Cell>> cells;
+	protected Life life;
+	
+	@Before
+	public void setUp(){
+//    	setOfCells = new HashSet<Cell>();
+//    	setOfCells.add(new Cell(1,1));
+//    	setOfCells.add(new Cell(2,2));
+//        life = new Life(setOfCells);
+    }
+	
+	@Test
+	public void testInitialisation()
+	{
+//		assertEquals(2, life.getLiveCells().size());
+	}
+
+    @Test
+    public void testUnderpopulation()
+    {
+        assertFalse(life.cellShouldSurvive(0));
+        assertFalse(life.cellShouldSurvive(1));
+        assertTrue(life.cellShouldSurvive(2));
+        assertTrue(life.cellShouldSurvive(3));
+    }
+}

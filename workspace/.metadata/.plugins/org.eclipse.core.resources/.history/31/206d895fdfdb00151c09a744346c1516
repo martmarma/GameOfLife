@@ -1,0 +1,63 @@
+package bbc.gameoflife;
+
+import java.util.ArrayList;
+
+import bbc.gameoflifestub.Cell;
+import bbc.gameoflifestub.Life;
+
+//A Very Simple Example
+class GameOfLife {
+	
+	public static void main(String[] args) {
+
+		String initialCellPopulation = "..*.*..\n.*....*\n...*...";
+
+		ArrayList<ArrayList<Cell>> initialCells = prepareCellsFromString(initialCellPopulation);
+		
+		Life life = new Life(initialCells);
+		System.out.println(life);
+		Life newLife = life.gameOfLife();
+		System.out.println(newLife);
+	}
+
+	public static ArrayList<ArrayList<Cell>> prepareCellsFromString(String inputString) {
+
+		ArrayList<ArrayList<Cell>> cells = new ArrayList<>();
+
+		String[] lines = inputString.split("\n");
+
+		if (areLinesBalanced(lines)) {
+			for (int i = 0; i < lines.length; i++) {
+				String line = lines[i];
+				ArrayList<Cell> cellsRow = new ArrayList<>();
+				for (int j = 0; j < line.length(); j++) {
+					if (line.charAt(j) == '*') {
+						cellsRow.add(new Cell(i, j, true));
+					}
+					else {
+						cellsRow.add(new Cell(i, j, false));
+					}
+				}
+				
+				cells.add(cellsRow);
+			}
+		}
+
+		return cells;
+	}
+
+	public static boolean areLinesBalanced(String[] lines) {
+
+		int lineLength = lines[0].length();
+		boolean balancedLines = true;
+
+		for (String string : lines) {
+			if (string.length() != lineLength) {
+				balancedLines = false;
+				break;
+			}
+		}
+
+		return balancedLines;
+	}
+}

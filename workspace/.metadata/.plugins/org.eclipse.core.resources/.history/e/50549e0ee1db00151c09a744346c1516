@@ -1,0 +1,168 @@
+package bbc.gameoflifestub;
+
+import java.util.ArrayList;
+
+public class Life {
+
+	private ArrayList<ArrayList<Cell>> cells;
+
+	public Life(ArrayList<ArrayList<Cell>> initialCells)
+    {
+		this.cells = initialCells;
+	}
+
+    public ArrayList<ArrayList<Cell>> getCells()
+    {
+        return this.cells;
+    }
+
+    public Cell getCell(int x, int y) {
+    	
+    	return cells.get(x).get(y);
+    }
+    
+    public Life gameOfLife() {
+    	
+    	Life life = new Life(cells);
+    	
+    	for (int i = 0; i < life.cells.size(); i++) {
+    		
+    		ArrayList<Cell> cellsRow = cells.get(i);
+    		
+			for (int j = 0; j < cellsRow.size(); j++) {
+				
+				Cell cell = cellsRow.get(j);
+				int numberOfNeighbours = numberOfNeighboursForCell(cell);
+				System.out.println("Next state:");
+				if (cell.isAlive()) {
+					
+					if (cellShouldSurvive(numberOfNeighbours)) {
+						
+						Cell newCell = new Cell(i, j, true);
+						life.setCell(newCell, i, j);
+					}
+					else {
+						
+						Cell newCell = new Cell(i, j, false);
+						life.setCell(newCell, i, j);
+					}
+				} else {
+					
+					if (liveShouldBeCreated(numberOfNeighbours)) {
+						
+						Cell newCell = new Cell(i, j, true);
+						life.setCell(newCell, i, j);
+					}
+					else {
+						
+						Cell newCell = new Cell(i, j, false);
+						life.setCell(newCell, i, j);
+					}
+				}
+			}
+		}
+    	
+    	return life;
+    }
+    
+    private void setCell(Cell cell, int x, int y) {
+    	
+    	cells.get(x).set(y, cell);
+    }
+    
+    private int numberOfNeighboursForCell(Cell cell) {
+    	
+    	int numberOfNeighbours = 0;
+    	int x = cell.getX();
+    	int y = cell.getY();
+    	
+    	if (isNeighbourAlive(x - 1, y - 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x, y - 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x + 1, y - 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x + 1, y)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x + 1, y + 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x, y + 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x - 1, y + 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x - 1, y)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	return numberOfNeighbours;
+    }
+    
+    private boolean isNeighbourAlive(int x, int y) {
+    	
+    	boolean isAlive = false;
+    	
+    	if (x < cells.size() && x >= 0 && y < cells.get(0).size() && y >= 0) {
+    		
+    		isAlive = cells.get(x).get(y).isAlive();
+    	}
+    	
+    	return isAlive;
+    }
+    
+    public boolean cellShouldSurvive(int numNeighbours)
+    {
+    	if (numNeighbours == 2 || numNeighbours == 3) {
+    		System.out.println("Cell shoud survie");
+    		return true;
+    	}
+    	else {
+    		System.out.println("Cell shoud die");
+    		return false;
+    	}
+    }
+    
+    public boolean liveShouldBeCreated(int numNeighbours)
+    {
+    	System.out.println("Live shoud be created");
+    	return numNeighbours == 3;
+    }
+    
+    public String toString() {
+    	
+    	String stringToPrint = "";
+    	
+    	for (int i = 0; i < cells.size(); i++) {
+			
+    		ArrayList<Cell> cellRow = cells.get(i);
+    		
+    		for (int j = 0; j < cellRow.size(); j++) {
+				
+    			Cell cell = cellRow.get(j);
+    			
+    			if(cell.isAlive()) {
+    				stringToPrint += "*";
+    			} else {
+    				stringToPrint += ".";
+    			}
+			}
+    		
+    		stringToPrint += "\n";
+		}
+    	
+    	return stringToPrint;
+    }
+}

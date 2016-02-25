@@ -1,0 +1,26 @@
+package bbc.gameoflifestub;
+
+public class Cell {
+	private int x;
+	private int y;
+	private boolean alive;
+
+	public Cell(int x, int y, boolean alive){
+		this.x = x;
+		this.y = y;		
+	}
+
+	public int hashCode(){
+		return 31 * 31 * x + 31 * y;
+	}
+	
+	public boolean equals(Object other){
+		Cell otherCell = (Cell)other;
+		return otherCell.x == x && otherCell.y == y && otherCell.alive == alive; 
+	}
+	
+	public String toString() {
+		
+		return "(" + x + ", " + y + ")";
+	}
+}

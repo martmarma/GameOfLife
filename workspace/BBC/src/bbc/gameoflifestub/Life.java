@@ -1,0 +1,144 @@
+package bbc.gameoflifestub;
+
+import java.util.ArrayList;
+
+public class Life {
+
+	private ArrayList<ArrayList<Cell>> cells;
+
+	public Life(ArrayList<ArrayList<Cell>> initialCells) {
+		
+		this.cells = initialCells;
+	}
+
+    public ArrayList<ArrayList<Cell>> getCells() {
+    	
+        return this.cells;
+    }
+
+    public Cell getCell(int x, int y) {
+    	
+    	return cells.get(x).get(y);
+    }
+    
+    public Life gameOfLife() {
+    	
+    	ArrayList<ArrayList<Cell>> newCells = new ArrayList<>();
+    	
+    	for (int i = 0; i < cells.size(); i++) {
+    		
+    		ArrayList<Cell> cellsRow = cells.get(i);
+    		ArrayList<Cell> newCellsRow = new ArrayList<>();
+    		
+			for (int j = 0; j < cellsRow.size(); j++) {
+				
+				Cell cell = cellsRow.get(j);
+				int numberOfNeighbours = numberOfNeighboursForCell(cell);
+				
+				if (cell.isAlive() && !cellShouldSurvive(numberOfNeighbours)) {
+					Cell newCell = new Cell(i, j, false);
+					newCellsRow.add(newCell);
+				} else if (!cell.isAlive() && liveShouldBeCreated(numberOfNeighbours)){
+					Cell newCell = new Cell(i, j, true);
+					newCellsRow.add(newCell);
+				} else {
+					Cell newCell = new Cell(i, j, cell.isAlive());
+					newCellsRow.add(newCell);
+				}
+			}
+			
+			newCells.add(newCellsRow);
+		}
+    	
+    	Life life = new Life(newCells);
+    	
+    	return life;
+    }
+    
+    private int numberOfNeighboursForCell(Cell cell) {
+    	
+    	int numberOfNeighbours = 0;
+    	int x = cell.getX();
+    	int y = cell.getY();
+    	
+    	if (isNeighbourAlive(x - 1, y - 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x, y - 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x + 1, y - 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x + 1, y)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x + 1, y + 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x, y + 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x - 1, y + 1)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	if (isNeighbourAlive(x - 1, y)) {
+    		numberOfNeighbours++;
+    	}
+    	
+    	return numberOfNeighbours;
+    }
+    
+    private boolean isNeighbourAlive(int x, int y) {
+    	
+    	boolean isAlive = false;
+    	
+    	if (x < cells.size() && x >= 0 && y < cells.get(0).size() && y >= 0) {
+    		
+    		isAlive = cells.get(x).get(y).isAlive();
+    	}
+    	
+    	return isAlive;
+    }
+    
+    public boolean cellShouldSurvive(int numNeighbours) {
+    	
+    	if (numNeighbours == 2 || numNeighbours == 3) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+    public boolean liveShouldBeCreated(int numNeighbours) {
+    	
+    	return numNeighbours == 3;
+    }
+    
+    public String toString() {
+    	
+    	String stringToPrint = "";
+    	
+    	for (int i = 0; i < cells.size(); i++) {
+			
+    		ArrayList<Cell> cellRow = cells.get(i);
+    		
+    		for (int j = 0; j < cellRow.size(); j++) {
+				
+    			Cell cell = cellRow.get(j);
+    			stringToPrint += cell.toString();
+			}
+    		
+    		stringToPrint += "\n";
+		}
+    	
+    	return stringToPrint;
+    }
+}
