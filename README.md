@@ -9,5 +9,5 @@ Open Eclipse and select this workspace.
 
 **Runnable jar file**
 
-For running the program, type this command line on the console: java -jar GameOfLife.jar 
+To run the program, type this command line on the console: ```java -jar GameOfLife.jar``` 
 This is the code used for the input of the program: Live: '*', Dead: '.', New line: '_'
